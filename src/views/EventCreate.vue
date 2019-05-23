@@ -49,8 +49,15 @@
       <h3>When is your event?</h3>
       <div class="field">
         <label>Date</label>
-        <datepicker v-model="event.date" placeholder="Select a date"/>
+        <datepicker
+          v-model="event.date"
+          placeholder="Select a date"
+          @closed='test'
+          :input-class='{ error: $v.event.date.$error }'/>
       </div>
+      <template v-if='$v.event.date.$error'>
+        <p v-if='!$v.event.date.required' class='errorMessage'>Date is required</p>
+      </template>
 
       <BaseSelect
         label='Select a time'
@@ -62,7 +69,12 @@
         <p v-if='!$v.event.time.required' class='errorMessage'>Time is required</p>
       </template>
 
-      <BaseButton type='submit' buttonClass='button -fill-gradient'>Submit</BaseButton>
+      <BaseButton
+        type='submit'
+        buttonClass='button -fill-gradient'
+        :disabled='$v.$anyError'
+        >Submit</BaseButton>
+      <p v-if='$v.$anyError' class='errorMessage'>Please fill out the required fields</p>
     </form>
   </div>
 </template>
@@ -99,16 +111,22 @@ export default {
   },
   methods: {
     createEvent() {
-      NProgress.start()
-      this.$store.dispatch( 'event/createEvent', this.event ).then( () => {
-        this.$router.push({
-          name: 'event-show',
-          params: { id: this.event.id }
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        NProgress.start()
+        this.$store.dispatch( 'event/createEvent', this.event ).then( () => {
+          this.$router.push({
+            name: 'event-show',
+            params: { id: this.event.id }
+          })
+          this.event = this.createFreshEvent()
+        }).catch(() => {
+          NProgress.done()
         })
-        this.event = this.createFreshEvent()
-      }).catch(() => {
-        NProgress.done()
-      })
+      }
+    },
+    test() {
+      console.log( 'test' )
     },
     createFreshEvent() {
       const user = this.$store.state.user.user

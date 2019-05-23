@@ -7,6 +7,10 @@ import 'nprogress/nprogress.css'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Vuelidate from 'vuelidate'
+import DateFilter from './filters/date'
+
+
+Vue.filter( 'date', DateFilter )
 
 Vue.use( Vuelidate )
 

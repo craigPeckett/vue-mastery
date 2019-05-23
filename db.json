@@ -465,6 +465,60 @@
       "date": "",
       "time": "",
       "attendees": []
+    },
+    {
+      "id": 9581995,
+      "user": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "category": "",
+      "organizer": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "title": "",
+      "description": "",
+      "location": "",
+      "date": "",
+      "time": "",
+      "attendees": []
+    },
+    {
+      "id": 5374096,
+      "user": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "category": "nature",
+      "organizer": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "title": "Puppy Picnic",
+      "description": "",
+      "location": "",
+      "date": "",
+      "time": "",
+      "attendees": []
+    },
+    {
+      "id": 3424497,
+      "user": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "category": "nature",
+      "organizer": {
+        "id": "abc123",
+        "name": "Craig"
+      },
+      "title": "",
+      "description": "",
+      "location": "",
+      "date": "",
+      "time": "",
+      "attendees": []
     }
   ]
 }

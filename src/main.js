@@ -4,8 +4,33 @@ import router from "./router";
 import store from "./store/store";
 import BaseIcon from '@/components/BaseIcon.vue'
 import 'nprogress/nprogress.css'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+import Vuelidate from 'vuelidate'
 
-Vue.component( 'BaseIcon', BaseIcon )
+Vue.use( Vuelidate )
+
+const requireComponent = require.context(
+  './components',
+  false,
+  /Base[A-Z]\w+\.(vue|js)$/
+)
+
+requireComponent.keys().forEach(fileName => {
+  const componentConfig = requireComponent(fileName)
+  const componentName = upperFirst(
+    camelCase(
+      fileName
+        .split('/')
+        .pop()
+        .replace(/\.\w+$/, '')
+    )
+  )
+  Vue.component(
+    componentName,
+    componentConfig.default || componentConfig
+  )
+})
 
 Vue.config.productionTip = false;
 

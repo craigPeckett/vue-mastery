@@ -17,7 +17,7 @@ export const mutations = {
     state.events = events
   },
   SET_EVENT_TOTAL( state, eventTotal ) {
-    state.eventTotal = Math.ceil( eventTotal/3 )
+    state.eventTotal = eventTotal
   },
   SET_EVENT( state, event ) {
     state.event = event
@@ -42,10 +42,10 @@ export const actions = {
       throw error
     })
   },
-  fetchEvents({ commit, dispatch }, { page } ) {
+  fetchEvents({ commit, dispatch, state }, { page } ) {
     return EventService.getEvents( state.perPage, page ).then( res => {
       commit('SET_EVENTS', res.data)
-      commit('SET_EVENT_TOTAL', res.headers['x-total-count'])
+      commit('SET_EVENT_TOTAL', parseInt( res.headers['x-total-count'] ))
     }).catch( err => {
       const notification = {
         type: 'error',
@@ -54,7 +54,7 @@ export const actions = {
       dispatch('notification/add', notification, {root: true})
     })
   },
-  fetchEvent({ commit, getters, dispatch }, id ) {
+  fetchEvent({ commit, getters }, id ) {
     let event = getters.getEventById( id )
 
     if( event ) {
@@ -64,12 +64,6 @@ export const actions = {
       return EventService.getEvent( id ).then( res => {
         commit('SET_EVENT', res.data)
         return res.data
-      }).catch( err => {
-        const notification = {
-          type: 'error',
-          message: 'There was a problem fetching event: ' + err.message
-        }
-        dispatch('notification/add', notification, {root: true})
       })
     }
   }
